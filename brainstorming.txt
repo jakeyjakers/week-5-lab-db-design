@@ -1,0 +1,181 @@
+step 1
+
+keep track of---
+    user
+    email
+    passwordhash
+    user id
+    recipes
+    recipe instructions
+    recipe public or private - boolean
+    recipe id
+    ingredients
+    ingredients id
+    occasions
+    grocery list
+    grocery list id
+
+
+step 2
+
+
+table ideas----
+
+user---
+    user id
+    email
+    passwordhash
+    occasions id? to keep track of 
+
+recipe----
+    recipe title
+    ingredients - text
+    recipe id
+    ingredients id
+    review id
+    user id
+    
+ingredients----
+    ingredients title 
+    ingredients id
+    
+
+occasions----
+    occasion id
+    recipe id
+    occasion title - varchar
+
+reviews----
+    review id
+    recipe id
+    stars integer 1-5
+    user id
+
+    nutrition_facts table ---
+    nutrition_facts_id
+    ingredients_id
+    recipe_id
+    nutrition_facts_text
+
+step 3 Relationships
+
+one to one
+
+    reviews - recipes. because reviews only needs the id referenced
+
+    occasions - recipes. because we're only refencing the id.
+
+    ingredients - recipes. referencing multiple ids     
+
+one to many 
+
+ingredients   grocery list  recipe  occasions
+
+because the all reference different ids from each other
+
+
+many to many
+
+users recipe reviews ingredients 
+
+relationships part 2
+
+user table---
+    firts_name - need first name for identification
+    last_name - need last name for identification
+    user_id - needs identification to exaclty access data
+    passwordhash - to make sure it's them when logging in
+    occasion id- to link to their occasions
+
+    recipe table----
+    recipe title - so it has a readable title for humans
+    ingredients - text - to obviously write out ingredients
+    recipe id - so it has a unique identifier
+    ingredients id - to refernce ingredients used
+    review id - to reference reviews about it
+    user id to refence which user created it
+
+    ingredients table----
+    ingredients title -- to have a readable identifier to humans
+    ingredients id - to have a unique identifier for database
+    
+    occasions table----
+    occasion id - unique identifier for each created occasion
+    recipe id - to refernce any recipes linked to it
+    occasion title - varchar - readable identification by humans
+
+    reviews table----
+    review id unique identifier to refence for database
+    recipe id to refence ids from the recipe its linked to 
+    stars integer 1-5 - so it can have reviews, 
+    user id - to reference which user reviewed each recipe
+
+step 4. see step 2. added in stuff
+
+recipe nutrition facts
+
+    recipe nutrition facts id
+    ingredients id
+    nutrition text, text
+
+part 2 table planning- db deisnger
+
+step 1
+
+part 3
+
+
+CREATE TABLE users (
+  user_id SERIAL PRIMARY KEY,
+  password_hash VARCHAR(500),
+  first_name VARCHAR(25),
+  last_name VARCHAR(25),
+  email VARCHAR(50)
+  
+  )
+  
+
+  CREATE TABLE ingredients (
+  indgredients_id SERIAL PRIMARY KEY,
+  ingredients_title VARCHAR(255)
+  
+  )
+  
+  CREATE TABLE recipe (
+ 	recipe_id SERIAL PRIMARY KEY,
+  recipe_title VARCHAR(50),
+  ingredients_list VARCHAR(1000),
+  ingredients_id INT REFERENCES ingredients(indgredients_id),
+  user_id INT REFERENCES users(user_id)
+  
+  
+  )
+  
+  CREATE TABLE reviews (
+ 	review_id SERIAL PRIMARY KEY,
+  recipe_id INT REFERENCES recipe(recipe_id),
+  user_id INT REFERENCES users(user_id),
+  rating INT
+  )
+  
+
+  CREATE TABLE occasions (
+ 	occasion_id SERIAL PRIMARY KEY,
+  occasion_title VARCHAR(225),
+  recipe_id INT REFERENCES recipe(recipe_id),
+  user_id INT REFERENCES users(user_id)
+  )
+  
+  CREATE TABLE nutrition_facts (
+ 	nutrition_facts_id SERIAL PRIMARY KEY,
+  ingredients_id INT REFERENCES ingredients(indgredients_id),
+  recipe_id INT REFERENCES recipe(recipe_id),
+  nutrition_facts_text TEXT
+  )
+  
+
+intermediate
+
+  INSERT INTO users (first_name, last_name, password_hash)
+
+VALUES ('Ethan', 'Blanco', 'jaslsdfhkjshfkjsdhf');
